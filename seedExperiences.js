@@ -293,5 +293,10 @@ const experiencesData = [
 ]
 
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => console.error("❌ MongoDB connection error:", err));
+  .then(() => console.log("✅ MongoDB connected"),
+  console.log("⏳ Seeding experiences..."))
+  .then(async () => {
+    await Experience.deleteMany({});
+    await Experience.insertMany(experiencesData);
+    console.log("✅ Experiences seeded successfully");
+  })  .catch((err) => console.error("❌ Seeding error:", err))
